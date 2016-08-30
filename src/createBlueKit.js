@@ -9,6 +9,10 @@ import {parse as docgenParse} from 'react-docgen';
 
 const nunjuckEnv = nunjucks.configure(`${__dirname}/../nunjucks/`, {autoescape: false});
 
+nunjuckEnv.addFilter('nl2br', (val) => {
+  return val.replace(/\n\r?/g, '\\n')
+})
+
 function getAllFilesInDir(dir, relativeDirectory = []) {
   const resolvedDir = path.join(dir, relativeDirectory);
 
@@ -54,6 +58,7 @@ function generateComponentData(config, file, directory) {
 
   try {
     const docgen = docgenParse(content);
+
     const doc = {
       ...docgen,
       propsDefinition: objectToString(docgen.props)

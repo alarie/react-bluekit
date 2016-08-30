@@ -3,14 +3,34 @@ import Radium from 'radium';
 import React, {PropTypes as RPT} from 'react';
 import Spinner from './Spinner.react';
 
+/**
+ * A first line
+ * second line
+ *
+ * And a char ' that needs escaping
+ */
 @Radium
 export default class Button extends Component {
 
   static propTypes = {
     children:       RPT.any.isRequired,
+    /**
+     * The className
+     */
     className:      RPT.string,
+    /**
+     * If disabled or not
+     *
+     * and another line
+     */
     disabled:       RPT.bool,
+    /**
+     * If it should take the full width
+     */
     fullWidth:      RPT.bool,
+    /**
+     * Style that's inherited from "parent"
+     */
     inheritedStyle: RPT.object,
     kind:           RPT.oneOf(['primary', 'primaryInverted', 'secondary', 'simple']),
     loading:        RPT.bool,

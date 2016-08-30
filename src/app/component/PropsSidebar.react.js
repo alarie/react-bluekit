@@ -64,6 +64,12 @@ export default class PropsSidebar extends Component {
               visible={dropdownOpened}
             />
           </div>
+          { atom.get('description')
+            ? <div
+                dangerouslySetInnerHTML={{__html: atom.get('description').replace(/\n/g, '<br />')}}
+                style={styles.description}
+              />
+            : null}
           <div style={styles.clearfix}>
             <h3
               style={[
@@ -299,6 +305,14 @@ const styles = {
     padding: `0 ${spaces.normal}`,
     width: '75%',
     wordBreak: 'break-all'
+  },
+
+  description: {
+    ...headingStyles,
+    fontSize: '14px',
+    padding: `0 ${spaces.normal}`,
+    color: '#888888',
+    marginBottom: '30px'
   },
 
   bgWrapper: {

@@ -98,8 +98,15 @@ export default class PropsTable extends Component {
               : this.renderValueSelection(key, data.type, scope)
             }
           </div>
+          {data.description
+          ? <div
+              dangerouslySetInnerHTML={{__html: data.description.replace(/\n/g, '<br />')}}
+              style={styles.prop.description}
+            />
+          : null}
         </div>
         <div styles={styles.clearfix} />
+
       </div>
     )
   }
@@ -188,6 +195,17 @@ const styles = {
       borderLeft: '5px solid transparent',
       padding: `0 ${spaces.small} 0 ${spaces.smaller}`,
       transition: 'all .2s ease-out',
+      active: {
+        borderLeft: `5px solid ${colors.BLUE}`
+      }
+    },
+    description: {
+      ...font.size.small,
+      borderLeft: '5px solid transparent',
+      padding: `0 ${spaces.small} 0 ${spaces.smaller}`,
+      transition: 'all .2s ease-out',
+      margin: '5px 0 15px 0',
+      color: '#888888',
       active: {
         borderLeft: `5px solid ${colors.BLUE}`
       }

@@ -19,9 +19,9 @@ export default {
     file: '{{component.file}}',
     component: {{component.name}},
     componentName: '{{component.componentName}}',
-    description: '{{component.description}}',
+    description: '{{ component.description | escape | nl2br }}',
     customProps: {},
-    propsDefinition: {{component.propsDefinition}},
+    propsDefinition: {{ component.propsDefinition | nl2br }},
     simpleProps: {{component.simpleProps}},
     fullProps: {{component.fullProps}}
   },
