@@ -5,13 +5,17 @@ import normalizePath from './libraries/normalizePath';
 import nunjucks from 'nunjucks';
 import path from 'path';
 import toSource from 'tosource';
-import {parse as docgenParse} from 'react-docgen';
+import {parse as docgenParse, defaultHandlers} from 'react-docgen';
+
+import marked from 'marked'
 
 const nunjuckEnv = nunjucks.configure(`${__dirname}/../nunjucks/`, {autoescape: false});
 
 nunjuckEnv.addFilter('nl2br', (val) => {
-  return val.replace(/\n\r?/g, '\\n')
+  return (val || '').replace(/\n\r?/g, '\\n')
 })
+
+
 
 function getAllFilesInDir(dir, relativeDirectory = []) {
   const resolvedDir = path.join(dir, relativeDirectory);
@@ -57,7 +61,47 @@ function generateComponentData(config, file, directory) {
     .replace(/export default .*\((\w*)\)+/m, 'export default $1')
 
   try {
-    const docgen = docgenParse(content);
+
+    const docgen = docgenParse(content, null, [...defaultHandlers, (documentation) => {
+
+      documentation._props.forEach((prop) => {
+
+        const description = prop.description
+        if (!description) {
+          return
+        }
+        const regexpStr = '@bluebird-([a-zA-Z0-9_\-]+)\\s*([^@$]*)'
+        const matches = description.match(new RegExp(regexpStr, 'g'))
+        if (matches) {
+          prop.description = prop.description.replace(new RegExp(regexpStr, 'g'), '')
+          matches.forEach((match) => {
+
+            const innerMacthes = match.match(new RegExp(regexpStr))
+            if (!prop.bluebird) {
+              prop.bluebird = {}
+            }
+            prop.bluebird[innerMacthes[1]] = innerMacthes[2]
+          })
+
+        }
+
+      })
+
+    },
+    (documentation) => {
+
+      documentation._props.forEach((prop) => {
+
+        const description = prop.description
+        if (!description) {
+          return
+        }
+
+        prop.description = marked(prop.description)
+
+      })
+
+    }]);
 
     const doc = {
       ...docgen,

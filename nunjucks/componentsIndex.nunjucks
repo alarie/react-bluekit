@@ -21,7 +21,7 @@ export default {
     componentName: '{{component.componentName}}',
     description: '{{ component.description | escape | nl2br }}',
     customProps: {},
-    propsDefinition: {{ component.propsDefinition | nl2br }},
+    propsDefinition: {{ component.propsDefinition }},
     simpleProps: {{component.simpleProps}},
     fullProps: {{component.fullProps}}
   },

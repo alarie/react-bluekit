@@ -95,12 +95,12 @@ export default class PropsTable extends Component {
           >
             {data.type.name === 'func'
               ? 'func()'
-              : this.renderValueSelection(key, data.type, scope)
+              : this.renderValueSelection(key, data.type, scope, data)
             }
           </div>
           {data.description
           ? <div
-              dangerouslySetInnerHTML={{__html: data.description.replace(/\n/g, '<br />')}}
+              dangerouslySetInnerHTML={{__html: data.description}}
               style={styles.prop.description}
             />
           : null}
@@ -128,14 +128,17 @@ export default class PropsTable extends Component {
       )
   }
 
-  renderValueSelection(key, type, scope = []) {
+  renderValueSelection(key, type, scope = [], data = {}) {
     const {atom, componentProps} = this.props
     const {createSetAtomProp} = this.context
     const name = `${atom.get('name')}-${scope.concat(key).join('-')}`
 
     const defaultProps = {
       onChange: createSetAtomProp(key, type.name, scope),
-      value: fromJS(componentProps).getIn(scope.concat([key]))
+      value: /*(data.bluebird && data.bluebird.defaultVal) ||*/ fromJS({
+        ...componentProps,
+        /*[key]: componentProps[key] || (data.bluebird && data.bluebird.defaultVal)*/
+      }).getIn(scope.concat([key]))
     }
 
     switch (type.name) {

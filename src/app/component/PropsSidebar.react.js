@@ -67,7 +67,10 @@ export default class PropsSidebar extends Component {
           { atom.get('description')
             ? <div
                 dangerouslySetInnerHTML={{__html: atom.get('description').replace(/\n/g, '<br />')}}
-                style={styles.description}
+                style={{
+                  ...styles.description,
+                  ...styles.clearfix
+                }}
               />
             : null}
           <div style={styles.clearfix}>

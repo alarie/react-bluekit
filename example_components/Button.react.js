@@ -13,9 +13,14 @@ import Spinner from './Spinner.react';
 export default class Button extends Component {
 
   static propTypes = {
+    /**
+     * @bluebird-defaultVal Woop!
+     */
     children:       RPT.any.isRequired,
     /**
-     * The className
+     * The **className** and some `markdown`
+     * @bluebird-example className="hello-world"
+     * @bluebird-defaultVal test
      */
     className:      RPT.string,
     /**
